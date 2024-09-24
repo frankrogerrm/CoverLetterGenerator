@@ -1,0 +1,56 @@
+﻿@page "/"
+@rendermode InteractiveServer
+@using CoverLetterGenerator.Service.Services
+@using CoverLetterGenerator.Service.Models
+@using CoverLetterGenerator.Web.Models
+@inject ICoverLetterService coverLetterService
+
+
+
+<EditForm Model="@coverLetterViewModel">
+    <label>Company Name</label>
+    <InputText @bind-Value="@coverLetterViewModel.CompanyName"></InputText>
+    <br />
+    <label>Company Address</label>
+    <InputText @bind-Value="@coverLetterViewModel.CompanyAddress"></InputText>
+    <br />
+    <label>Company City</label>
+    <InputText @bind-Value="@coverLetterViewModel.CompanyCity"></InputText>
+    <br />
+    <label>Company Zip</label>
+    <InputText @bind-Value="@coverLetterViewModel.CompanyZip"></InputText>
+    <br />
+    <label>Job Position</label>
+    <InputText @bind-Value="@coverLetterViewModel.JobPosition"></InputText>
+    <br />
+    <button type="button" @onclick="@GenerateFile">Generate</button>
+</EditForm>
+
+@code{
+    CoverLetterViewModel coverLetterViewModel = new();
+
+    private void GenerateFile()
+    {
+        if (
+            coverLetterViewModel.CompanyAddress.Equals(string.Empty)
+        || coverLetterViewModel.CompanyAddress.Equals( string.Empty )
+        || coverLetterViewModel.CompanyAddress.Equals( string.Empty )
+        || coverLetterViewModel.CompanyAddress.Equals( string.Empty )
+        || coverLetterViewModel.CompanyAddress.Equals( string.Empty )
+        )
+        {
+            return;
+        }
+
+        var coverLetterModel = new CoverLetterModel()
+            {
+                CompanyAddress = coverLetterViewModel.CompanyAddress,
+                CompanyCity = coverLetterViewModel.CompanyCity,
+                CompanyName = coverLetterViewModel.CompanyName,
+                CompanyZip = coverLetterViewModel.CompanyZip,
+                JobPosition = coverLetterViewModel.JobPosition
+            };
+        coverLetterService.ProcessFile(coverLetterModel);
+    }
+
+}
